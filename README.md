@@ -8,11 +8,11 @@
 
         RAM MASTER (ALPHA)
         -------------------------------------------------------
+        pip install virustotal3
         git clone https://github.com/BroadbentT/RAM-MASTER.git 
         
         VIRUS TOTAL INSTALLATION
         -------------------------------------------------------        
-        pip install virustotal3
         API key available from https://www.virustotal.com/gui/join-us
 <br>
 
