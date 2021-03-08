@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/BroadbentT/RAM-MASTER/blob/master/picture1.png">
+  <img src="https://github.com/BroadbentT/RAM-MASTER/blob/main/picture1.png">
 </p>
 
 ## WINDOWS FORENSIC EDITION
@@ -17,7 +17,7 @@
 <br>
 
 <p align="center">
-  <img src="https://github.com/BroadbentT/RAM-MASTER/blob/master/picture2.png"> 
+  <img src="https://github.com/BroadbentT/RAM-MASTER/blob/main/picture2.png"> 
 </p>
 
 ## COMMAND CENTRE TO FORENSICALLY INVESTIGATE AND ANALYSE MICROSOFT WINDOWS MEMORY DUMP FILES VIA VOLATILITY.
@@ -38,7 +38,7 @@ Usage: python3 RamMaster.py
 A python script file to forensically examine Microsoft Windows memory-dump files - It can pull usernames, password hashes, extract .pcap files, system executables, MFT tables, console keystrokes, screenshots and much much more.
 
 ### CONSOLE DISPLAY AND VIDEO LINK
-[![RamMater](https://github.com/BroadbentT/RAM-MASTER/blob/master/picture3.png)](https://youtu.be/eV-srrSU-KA "RamMaster")
+[![RamMater](https://github.com/BroadbentT/RAM-MASTER/blob/main/picture3.png)](https://youtu.be/eV-srrSU-KA "RamMaster")
 
 
 ### COMPUTER MISUSE ACT 1990 - SECTION 3A
