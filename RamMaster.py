@@ -1983,7 +1983,7 @@ while True:
                os.system("rm *.tmp")
          os.chdir("..")
       else:
-         print(colored("[-] I am Sorry, you need to enter your personal api key on line 42 on this script...", colour4))
+         print(colored("[-] I am Sorry, you need to enter your personal api key on line 48 in this script...", colour4))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
