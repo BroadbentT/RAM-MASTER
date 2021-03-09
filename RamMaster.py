@@ -119,8 +119,8 @@ def displayMenu():
    if viral == "UNKNOWN":
       print(colored("UNKNOWN                  ", colour2), end=' ')
    else:
-      lastfile = spacePadding(viral.upper(),25)
-      print(colored(lastfile, colour1), end=' ')
+      lastfile = spacePadding(viral, 25)
+      print(colored(lastfile[:25], colour1), end=' ')
    print('\u2551')
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -159,8 +159,8 @@ def displayMenu():
    if hash == "UNKNOWN":
       print(colored("                                   ", colour2), end=' ')
    else:
-      lasthash = spacePadding(hash,32)
-      print(colored(" " + lasthash + "  ", colour1), end=' ')
+      lasthash = spacePadding(hash, 32)
+      print(colored(" " + lasthash[:32] + "  ", colour1), end=' ')
    print('\u2551')   
    
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1874,7 +1874,7 @@ while True:
                vt = virustotal3.core.Files(API_KEY)      
                vt_files = virustotal3.core.Files(API_KEY)      
                result = vt_files.info_file(hash)
-               print(json.dumps(result, indent=4, sort_keys=True))
+               print(json.dumps(result, indent=5, sort_keys=True))
                if "Malicious" in str(result):
                   malicious = 1
          os.chdir("..")

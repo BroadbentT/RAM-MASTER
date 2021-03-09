@@ -11,7 +11,7 @@
         pip install virustotal3
         git clone https://github.com/BroadbentT/RAM-MASTER.git 
         
-        VIRUS TOTAL INSTALLATION
+        VIRUS TOTAL API KEY
         -------------------------------------------------------------
         API key available from https://www.virustotal.com/gui/join-us
 <br>
@@ -26,7 +26,7 @@ Usage: python3 RamMaster.py
 
 | LANGUAGE  | FILENAME     | MD5 Hash                         | DESCRIPTION      | VERSION  |
 |------     |------        | -------                          | ------           | ----     |
-| python3   | RamMaster.py | ba06408bb3cfef1ab5c7186eeef002f3 | Command Centre   | Forensic |
+| python3   | RamMaster.py | 8091c6c80d6c67fa73ea3438ef9f208a | Command Centre   | Forensic |
 | text file | profiles.txt | 380d793d31c90a09aae417b16cbaff22 | Windows Profiles | Forensic |
 
 - [x] Uses and self-installs linux volatility 2.6 - https://www.volatilityfoundation.org/26
