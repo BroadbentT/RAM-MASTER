@@ -1724,7 +1724,7 @@ while True:
       print("")
       os.system("strings " + DIR.rstrip(" ") + "/mfttable.txt | grep '0000000000:' > count.tmp")
       fileNum = sum(1 for line in open('count.tmp'))
-      print(colored("[+] The table contains " + str(fileNum) + " local files < 10COL5 bytes in length.", colour3))
+      print(colored("[+] The table contains " + str(fileNum) + " local files < 1024 bytes in length.", colour3))
       prompt()
 
 # ------------------------------------------------------------------------------------- 
