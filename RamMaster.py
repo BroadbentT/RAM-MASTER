@@ -39,7 +39,7 @@ if os.geteuid() != 0:
    print("\nPlease run this python script as root...")
    exit(True)
 else:
-   API_KEY = ""
+   API_KEY = "" # ENTER YOUR API KEY HERE
     
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
