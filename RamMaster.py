@@ -1766,12 +1766,13 @@ while True:
       print(colored("[?] Please enter filename: ", colour3), end = '')
       fileName = input("")
       if fileName == "":
-         fileName = bak         
+         fileName = bak       
+      else:
+         fileName = spacePadding(fileName, COL5)          
       if os.path.exists(fileName.rstrip(" ")):
-         fileName = spacePadding(fileName, 14)
          profiles = "NOT FOUND"
          LOAD = True
-         displayTask()         
+         displayTask()
          os.system(volpath + " imageinfo -f '" + fileName.rstrip(" ") + "' --output-file=image.log")
          with open("image.log") as search:
             for line in search:
