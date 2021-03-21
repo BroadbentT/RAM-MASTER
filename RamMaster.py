@@ -1894,11 +1894,12 @@ while True:
                getip = getip.replace(':',' ')
                HIP = getip.rsplit(' ', 1)[0]
                POR = getip.rsplit(' ', 1)[1]
-               HIP = spacePadding(HIP, COL1)
-               POR = spacePadding(POR, COL1)
+               HIP = spacePadding(HIP.rstrip("\n"), COL1)
+               POR = spacePadding(POR.rstrip("\n"), COL1)
       else:
          print(colored("[-] I am Sorry, I cannot find " + fileName.rstrip(" ") + "? does it exist...", colour4))
-#         fileName = spacePadding(fileName, COL5)          
+      if len(fileName) < COL5:
+         fileName = spacePadding(fileName, COL5)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
