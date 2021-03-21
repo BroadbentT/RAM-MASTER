@@ -1766,9 +1766,7 @@ while True:
       print(colored("[?] Please enter filename: ", colour3), end = '')
       fileName = input("")
       if fileName == "":
-         fileName = bak       
-      else:
-         fileName = spacePadding(fileName, COL5)          
+         fileName = bak
       if os.path.exists(fileName.rstrip(" ")):
          profiles = "NOT FOUND"
          LOAD = True
@@ -1818,83 +1816,89 @@ while True:
          DA2 = DA2.rstrip("\n")
          a,b,c = DA2.split()
          DA2 = a + " " + b
-         DA2 = spacePadding(DA2, COL1)         
+         DA2 = spacePadding(DA2, COL1)                  
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivelist --output-file=hivelist.tmp")
-         with open("hivelist.tmp") as search:
-            for line in search:
-              if "\sam" in line.lower():
-                 SAM = line.split(None, 1)[0]
-                 SAM = spacePadding(SAM, COL2)
-              if "\security" in line.lower():
-                 SEC = line.split(None, 1)[0]
-                 SEC = spacePadding(SEC, COL2)
-              if "\software" in line.lower():
-                 SOF = line.split(None, 1)[0]
-                 SOF = spacePadding(SOF, COL2)
-              if "\system" in line.lower():
-                 SYS = line.split(None, 1)[0]
-                 SYS = spacePadding(SYS, COL2)
-              if "\components" in line.lower():
-                 COM = line.split(None, 1)[0]
-                 COM = spacePadding(SYS, COL2)
-              if "\\administrator\\ntuser.dat" in line.lower(): # \Administrator\NTUSER.DAT as there are usually multiple NTUSERS files. 
-                 NTU = line.split(None, 1)[0]
-                 NTU = spacePadding(SYS, COL2)
-              if "\hardware" in line.lower():
-                 HRD = line.split(None,1)[0]
-                 HRD = spacePadding(HRD, COL2)
-              if "\default" in line.lower():
-                 DEF = line.split(None,1)[0]
-                 DEF = spacePadding(DEF, COL2)
-              if "\\bcd" in line.lower():
-                 BCD = line.split(None,1)[0]
-                 BCD = spacePadding(BCD, COL2)                 
+         if os.path.exists("hivelist.tmp"):
+            with open("hivelist.tmp") as search:
+               for line in search:
+                 if "\sam" in line.lower():
+                    SAM = line.split(None, 1)[0]
+                    SAM = spacePadding(SAM, COL2)
+                 if "\security" in line.lower():
+                    SEC = line.split(None, 1)[0]
+                    SEC = spacePadding(SEC, COL2)
+                 if "\software" in line.lower():
+                    SOF = line.split(None, 1)[0]
+                    SOF = spacePadding(SOF, COL2)
+                 if "\system" in line.lower():
+                    SYS = line.split(None, 1)[0]
+                    SYS = spacePadding(SYS, COL2)
+                 if "\components" in line.lower():
+                    COM = line.split(None, 1)[0]
+                    COM = spacePadding(SYS, COL2)
+                 if "\\administrator\\ntuser.dat" in line.lower(): # \Administrator\NTUSER.DAT as there are usually multiple NTUSERS files. 
+                    NTU = line.split(None, 1)[0]
+                    NTU = spacePadding(SYS, COL2)
+                 if "\hardware" in line.lower():
+                    HRD = line.split(None,1)[0]
+                    HRD = spacePadding(HRD, COL2)
+                 if "\default" in line.lower():
+                    DEF = line.split(None,1)[0]
+                    DEF = spacePadding(DEF, COL2)
+                 if "\\bcd" in line.lower():
+                    BCD = line.split(None,1)[0]
+                    BCD = spacePadding(BCD, COL2)                                  
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " printkey -o " + SYS + " -K 'ControlSet001\Control\ComputerName\ComputerName' --output-file=host.tmp")
-         with open("host.tmp") as search:
-            wordlist = (list(search)[-1])
-            wordlist = wordlist.split()
-            HST = str(wordlist[-1])
-         if HST == "searched":					# Looks like a host name has not been found.
-            HST = "NOT FOUND          "				# So set a defualt value.
-         else:
-            HST = HST.encode(encoding='UTF-8',errors='strict')	# Deal with a encoding issue with hostname.
-            HST = str(HST)
-            HST = HST.replace("b'","")
-            HST = HST.replace("\\x00'","")
-            HST = spacePadding(HST, COL1)            
+         if os.path.exists("host.tmp"):
+            with open("host.tmp") as search:
+               wordlist = (list(search)[-1])
+               wordlist = wordlist.split()
+               HST = str(wordlist[-1])
+            if HST == "searched":					# Looks like a host name has not been found.
+               HST = "NOT FOUND          "				# So set a defualt value.
+            else:
+               HST = HST.encode(encoding='UTF-8',errors='strict')	# Deal with a encoding issue within hostname.
+               HST = str(HST)
+               HST = HST.replace("b'","")
+               HST = HST.replace("\\x00'","")
+               HST = spacePadding(HST, COL1)         
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hashdump -y " + SYS + " -s " + SAM + " --output-file=hash.tmp")
-         with open("hash.tmp") as search:
-            count = 0
-            for line in search:
-               if line != "":
-                  catch = line.replace(":"," ")
-                  catch2 = catch.split()
-                  catch3 = catch2[3]
-                  PA[count] = catch3
-                  US[count] = catch2[0][:COL3-1] + " "
-                  US[count] = spacePadding(US[count], COL3)
+         if os.path.exists("hash.tmp"):
+            with open("hash.tmp") as search:
+               count = 0
+               for line in search:
+                  if line != "":
+                     catch = line.replace(":"," ")
+                     catch2 = catch.split()
+                     catch3 = catch2[3]
+                     PA[count] = catch3
+                     US[count] = catch2[0][:COL3-1] + " "
+                     US[count] = spacePadding(US[count], COL3)
                   count = count + 1
-               if count > MAXX: count = MAXX                       
+               if count > MAXX: count = MAXX                
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " connscan --output-file=connscan.tmp")
-         os.system("sed '1d' connscan.tmp > conn1.tmp")
-         os.system("sed '1d' conn1.tmp > connscan.tmp")
-         os.system("cut -f 2 -d ' ' connscan.tmp > conn1.tmp")
-         os.system("strings conn1.tmp | sort | uniq -c | sort -nr > connscan.tmp")
-         os.system("sed '1d' conn1.tmp > connscan.tmp")         
-         getip = linecache.getline('connscan.tmp', 1)         
-         if getip != "":
-            getip = getip.split()
-            getip = getip[0].replace(':',' ')  
-            HIP = getip.rsplit(' ', 1)[0]
-            POR = getip.rsplit(' ', 1)[1]
-            HIP = spacePadding(HIP, COL1)
-            POR = spacePadding(POR, COL1)
+         if os.path.exists("connscan.tmp"):
+            os.system("sed -i '1d' connscan.tmp")
+            os.system("sed -i '1d' connscan.tmp")
+            os.system("cut -f 2 -d ' ' connscan.tmp > conn1.tmp")
+            os.system("strings conn1.tmp | sort | uniq -c | sort -nr > connscan.tmp")
+            os.system("sed -i /'127'/d connscan.tmp")
+            getip = linecache.getline('connscan.tmp', 1)
+            if getip != "":
+               getip = getip.replace("      ","")
+               null,getip = getip.split(" ")
+               getip = getip.replace(':',' ')
+               HIP = getip.rsplit(' ', 1)[0]
+               POR = getip.rsplit(' ', 1)[1]
+               HIP = spacePadding(HIP, COL1)
+               POR = spacePadding(POR, COL1)
       else:
          print(colored("[-] I am Sorry, I cannot find " + fileName.rstrip(" ") + "? does it exist...", colour4))
+#         fileName = spacePadding(fileName, COL5)          
       prompt()
       
 # ------------------------------------------------------------------------------------- 
