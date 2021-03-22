@@ -22,12 +22,10 @@ import os.path
 import datetime
 import pyfiglet
 import linecache
-import subprocess
 import virustotal3.core
 
 from termcolor import colored
 
-colour0 = 'white'
 colour1 = 'green'
 colour2 = 'yellow'
 colour3 = 'blue'
@@ -62,7 +60,7 @@ def dispBanner(variable):
    
 def getTime():
    variable = str(datetime.datetime.now().time())
-   variable = spacePadding(variable.split(".")[0], COL1)
+   variable = spacePadding(variable.split(".")[0], SP1)
    return variable
    
 def spacePadding(variable, value):
@@ -76,12 +74,12 @@ def prompt():
    print(colored("\n[!] Press ENTER to continue...", colour3), end = '')
    null = input("")
    return
-
-def displayTask():
-   print(colored("[*] Analysing file, please wait...\n", colour3))
-   return
    
-def parser(variable):
+def start():
+   print(colored("[*] Analysing file, please wait...\n", colour3))
+   return   
+   
+def virusParser(variable):
    os.system("touch temp.tmp")
    os.system("awk '/\"failure\":/'           " + variable + " > snip1.tmp 2>&1 temp.tmp")
    os.system("awk '/\"harmless\":/'	     " + variable + " > snip2.tmp 2>&1 temp.tmp")               
@@ -98,10 +96,10 @@ def displayMenu():
    print('\u2554' + '\u2550'*14 + '\u2566' + '\u2550'*21 + '\u2566' + '\u2550'*33 + '\u2566' + '\u2550'*55 + '\u2566' + '\u2550'*(37) + '\u2557')
    print('\u2551' + " TIME " + colored(localTime[:5],colour1) + "   " + '\u2551' + " FILE", end=' ')
    if fileName[:7] == "UNKNOWN":
-      print(colored(fileName[:14], colour2), end=' ')
+      print(colored(fileName[:SP0], colour2), end=' ')
    else:
-      print(colored(fileName[:14], colour1), end=' ')
-   print('\u2551' + " HIVE         OFFSET LOCATION    "  + '\u2551' + " USERNAME " + " "*11 + " NTFS PASSWORD HASH " + " "*14 + '\u2551' + "     VIRUS TOTAL API INFORMATION     " + '\u2551') 
+      print(colored(fileName[:SP0], colour1), end=' ')
+   print('\u2551' + " HIVE         OFFSET LOCATION    "  + '\u2551' + " USERNAME " + " "*11 + " NTFS PASSWORD HASH " + " "*14 + '\u2551' + "     VIRUSRTOTAL API INFORMATION     " + '\u2551') 
    print('\u2560' + '\u2550'*14 + '\u256C' + '\u2550'*21 + '\u256C' + '\u2550'*12 + '\u2566' + '\u2550'*20 + '\u256C' + '\u2550'*55 + '\u256C' + '\u2550'*(11) + '\u2566' + '\u2550'*(25) + '\u2563')
    
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -117,8 +115,8 @@ def displayMenu():
    else:
       print(colored(SAM,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[0].upper(),colour1), end=' ')
-   print(colored(PA[0],colour1), end=' ')
+   print(colored(USR[0].upper(),colour1), end=' ')
+   print(colored(PAS[0],colour1), end=' ')
    print('\u2551', end=' ')   
    print("API TOKEN " + '\u2551', end=' ')
    if token[:2] == "SU":
@@ -140,8 +138,8 @@ def displayMenu():
    else:
       print(colored(SEC,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[1].upper(),colour1), end=' ')
-   print(colored(PA[1],colour1), end=' ')
+   print(colored(USR[1].upper(),colour1), end=' ')
+   print(colored(PAS[1],colour1), end=' ')
    print('\u2551', end=' ')   
    print("LAST FILE " + '\u2551', end=' ')
    if testFile[:7] == "UNKNOWN":
@@ -162,8 +160,8 @@ def displayMenu():
    else:
       print(colored(COM,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[2].upper(),colour1), end=' ')
-   print(colored(PA[2],colour1), end=' ')
+   print(colored(USR[2].upper(),colour1), end=' ')
+   print(colored(PAS[2],colour1), end=' ')
    print('\u2551', end=' ')   
    print("FAILURE   " + '\u2551', end=' ')   
    if failure[:1] == "0":
@@ -185,8 +183,8 @@ def displayMenu():
    else:
       print(colored(SOF,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[3].upper(),colour1), end=' ')
-   print(colored(PA[3],colour1), end=' ')
+   print(colored(USR[3].upper(),colour1), end=' ')
+   print(colored(PAS[3],colour1), end=' ')
    print('\u2551', end=' ')   
    print("HARMLESS  " + '\u2551', end=' ')
    if harmless[:1] == "0":
@@ -199,19 +197,19 @@ def displayMenu():
    
    print('\u2551' + " LOCAL IP     " + '\u2551', end=' ')
    if HIP == "000.000.000.000    ":
-      print(colored(HIP[:COL1],colour2), end=' ')
+      print(colored(HIP[:SP1],colour2), end=' ')
    else:
-      print(colored(HIP[:COL1],colour1), end=' ')
+      print(colored(HIP[:SP1],colour1), end=' ')
    print('\u2551' + " SYSTEM     " + '\u2551', end=' ')
    if SYS == "0x0000000000000000":
       print(colored(SYS,colour2), end=' ')
    else:
       print(colored(SYS,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[4].upper(),colour1), end=' ')
-   print(colored(PA[4],colour1), end=' ')
+   print(colored(USR[4].upper(),colour1), end=' ')
+   print(colored(PAS[4],colour1), end=' ')
    print('\u2551', end=' ')   
-   print("MALICIOUS " + '\u2551', end=' ')
+   print("MALICIOUSR" + '\u2551', end=' ')
    if malicious[:1] == "0":
       print(colored(malicious, colour2), end=' ')
    else:
@@ -221,18 +219,18 @@ def displayMenu():
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
    
    print('\u2551' + " LOCAL PORT   " + '\u2551', end=' ')
-   if POR == "000                ":
-      print(colored(POR[:COL1],colour2), end=' ')
+   if POR[:1] == "0":
+      print(colored(POR[:SP1],colour2), end=' ')
    else:
-      print(colored(POR[:COL1],colour1), end=' ')
+      print(colored(POR[:SP1],colour1), end=' ')
    print('\u2551' + " NTUSER     " + '\u2551', end=' ')
    if NTU == "0x0000000000000000":
       print(colored(NTU,colour2), end=' ')
    else:
       print(colored(NTU,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[5].upper(),colour1), end=' ')
-   print(colored(PA[5],colour1), end=' ')
+   print(colored(USR[5].upper(),colour1), end=' ')
+   print(colored(PAS[5],colour1), end=' ')
    print('\u2551', end=' ')   
    print("SUSPECT   " + '\u2551', end=' ')
    if suspicious[:1] == "0":
@@ -245,17 +243,17 @@ def displayMenu():
    
    print('\u2551' + " PID VALUE    " + '\u2551', end=' ')
    if PI1[:2] == "0 ":
-      print(colored(PI1[:COL1],colour2), end=' ')
+      print(colored(PI1[:SP1],colour2), end=' ')
    else:
-      print(colored(PI1[:COL1],colour1), end=' ')
+      print(colored(PI1[:SP1],colour1), end=' ')
    print('\u2551' + " HARDWARE   " + '\u2551', end=' ')
    if HRD == "0x0000000000000000":
       print(colored(HRD,colour2), end=' ')
    else:
       print(colored(HRD,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[6].upper(),colour1), end=' ')
-   print(colored(PA[6],colour1), end=' ')
+   print(colored(USR[6].upper(),colour1), end=' ')
+   print(colored(PAS[6],colour1), end=' ')
    print('\u2551', end=' ')   
    print("UNSUPPORT " + '\u2551', end=' ')
    if unsupported[:1] == "0":
@@ -268,17 +266,17 @@ def displayMenu():
    
    print('\u2551' + " OFFSET VALUE " + '\u2551', end=' ')
    if OFF[:2] == "0 ":
-      print(colored(OFF[:COL1],colour2), end=' ')
+      print(colored(OFF[:SP1],colour2), end=' ')
    else:
-      print(colored(OFF[:COL1],colour1), end=' ')
+      print(colored(OFF[:SP1],colour1), end=' ')
    print('\u2551' + " DEFUALT    " + '\u2551', end=' ')
    if DEF == "0x0000000000000000":
       print(colored(DEF,colour2), end=' ')
    else:
       print(colored(DEF,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[7].upper(),colour1), end=' ')
-   print(colored(PA[7],colour1), end=' ')
+   print(colored(USR[7].upper(),colour1), end=' ')
+   print(colored(PAS[7],colour1), end=' ')
    print('\u2551', end=' ')
    print("UNDETECT  " + '\u2551', end=' ')
    if undetected[:1] == "0":
@@ -290,17 +288,17 @@ def displayMenu():
    
    print('\u2551' + " PARAMETER    " + '\u2551', end=' ')
    if PRM == "UNSELECTED         ":
-      print(colored(PRM[:COL1],colour2), end=' ')
+      print(colored(PRM[:SP1],colour2), end=' ')
    else:
-      print(colored(PRM[:COL1],colour1), end=' ')
+      print(colored(PRM[:SP1],colour1), end=' ')
    print('\u2551' + " BOOT BCD   " + '\u2551', end=' ')
    if BCD == "0x0000000000000000":
       print(colored(BCD,colour2), end=' ')
    else:
       print(colored(BCD,colour1), end=' ')
    print('\u2551', end=' ')
-   print(colored(US[8].upper(),colour1), end=' ')
-   print(colored(PA[8],colour1), end=' ')
+   print(colored(USR[8].upper(),colour1), end=' ')
+   print(colored(PAS[8],colour1), end=' ')
    print('\u2551', end=' ')   
    print("REAL NAME " + '\u2551', end=' ')
    if realname[:7] == "UNKNOWN":
@@ -313,23 +311,23 @@ def displayMenu():
    
    print('\u2551' + " DIRECTORY    " + '\u2551', end=' ')
    if DIR == "OUTCOME            ":
-      print(colored(DIR[:COL1],colour2), end=' ')
+      print(colored(DIR[:SP1],colour2), end=' ')
    else:
-      print(colored(DIR[:COL1],colour1), end=' ')
+      print(colored(DIR[:SP1],colour1), end=' ')
    print('\u2551' + " " + J[:9] + "  " + '\u2551', end=' ')
    if CUS == "0x0000000000000000":
       print(colored(CUS,colour2), end=' ')
    else:
       print(colored(CUS,colour1), end=' ')
    print('\u2551', end=' ')
-   if US[10] != "":
-      print(colored(US[9].upper(),colour4), end=' ')
-      print(colored(PA[9],colour4), end=' ')
+   if USR[10] != "":
+      print(colored(USR[9].upper(),colour4), end=' ')
+      print(colored(PAS[9],colour4), end=' ')
    else:
-      print(colored(US[9].upper(),colour1), end=' ')
-      print(colored(PA[9],colour1), end=' ')
+      print(colored(USR[9].upper(),colour1), end=' ')
+      print(colored(PAS[9],colour1), end=' ')
    print('\u2551', end=' ')   
-   print("STATUS    " + '\u2551', end=' ')
+   print("STATUSR   " + '\u2551', end=' ')
    if status[:7] == "UNKNOWN":
       print(colored(status, colour2), end=' ')
    else:
@@ -407,30 +405,31 @@ else:
 # Modified: N/A                                                               
 # -------------------------------------------------------------------------------------
 
-COL1 = 19	# FIRST COLUMN
-COL2 = 18	# SET AT MAX 64-BIT REGISTER LENGTH
-COL3 = 20	# SET AT MAX USER NAME LENGTH
-COL4 = 32	# SET AT MAX PASSWORD HASH LENGTH
-COL5 = 23	# LAST COLUMN
-MAXX = 10+1	# MAX DISPLAY OF USERNAMES & PASSWORDS + ONE
-LOAD = False	# FILE LOADED FALSE/TRUE
+SP0 = 14
+SP1 = 19
+SP2 = 18
+SP3 = 20
+SP4 = 32
+SP5 = 23
+MAX = 11
+LDF = 0
 
-PRO = "UNSELECTED         "	# COLUMN ONE
-PR2 = "UNSELECTED         "
-HST = "UNKNOWN            "
-SVP = "0                  "
-DA1 = "NOT FOUND          "
-DA2 = "NOT FOUND          "
-HIP = "000.000.000.000    "
-POR = "000                "
-PI1 = "0                  "
-PI2 = "0                  "
-OFF = "0                  "
-PRC = "0                  "
-PRM = "UNSELECTED         "
-DIR = "OUTCOME            "
+PRO = spacePadding("UNSELECTED",SP1)
+PR2 = spacePadding("UNSELECTED",SP1)
+HST = spacePadding("UNKNOWN",SP1)
+SVP = spacePadding("0",SP1)
+DA1 = spacePadding("NOT FOUND",SP1)
+DA2 = spacePadding("NOT FOUND",SP1)
+HIP = spacePadding("000.000.000.000",SP1)
+POR = spacePadding("0",SP1)
+PI1 = spacePadding("0",SP1)
+PI2 = spacePadding("0",SP1)
+OFF = spacePadding("0",SP1)
+PRC = spacePadding("0",SP1)
+PRM = spacePadding("UNSELECTED",SP1)
+DIR = spacePadding("OUTCOME",SP1)
 
-SAM = "0x0000000000000000"	# COLUMN TWO
+SAM = "0x0000000000000000"
 SEC = "0x0000000000000000"
 COM = "0x0000000000000000"
 SOF = "0x0000000000000000"
@@ -440,30 +439,30 @@ HRD = "0x0000000000000000"
 DEF = "0x0000000000000000"
 BCD = "0x0000000000000000"
 CUS = "0x0000000000000000"
+J   = spacePadding("CUSTOM",SP2)
 
-X1 = " "*COL3			# COL THREE AND FOUR
-X2 = " "*COL4
-US = [X1]*MAXX
-PA = [X2]*MAXX
+XX1 = " "*SP3
+XX2 = " "*SP4
+USR= [XX1]*MAX
+PAS= [XX2]*MAX
 
-J        = "CUSTOM             "
-volpath  = "volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone"
-fileName = "UNKNOWN       "
+fileName    = spacePadding("UNKNOWN",SP5)   
+testFile    = spacePadding("UNKNOWN",SP5)
+failure     = spacePadding("0", SP5)
+harmless    = spacePadding("0", SP5)
+malicious   = spacePadding("0", SP5)
+suspicious  = spacePadding("0", SP5)
+unsupported = spacePadding("0", SP5)
+undetected  = spacePadding("0", SP5)
+realname    = spacePadding("UNKNOWN", SP5)
+status      = spacePadding("UNKNOWN", SP5)
 
 if API_KEY != "":
-   token = spacePadding("SUBSCRIBED", COL5)
+   token = spacePadding("SUBSCRIBED",SP5)
 else:
-   token = spacePadding("UNSUBSCRIBED", COL5)
+   token = spacePadding("UNSUBSCRIBED",SP5)
    
-testFile    = spacePadding("UNKNOWN", COL5)
-failure     = spacePadding("0", COL5)
-harmless    = spacePadding("0", COL5)
-malicious   = spacePadding("0", COL5)
-suspicious  = spacePadding("0", COL5)
-unsupported = spacePadding("0", COL5)
-undetected  = spacePadding("0", COL5)
-realname    = spacePadding("UNKNOWN", COL5)
-status      = spacePadding("UNKNOWN", COL5)
+volpath  = "volatility_2.6_lin64_standalone/volatility_2.6_lin64_standalone"
 
 # -------------------------------------------------------------------------------------
 # AUTHOR  : Terence Broadbent                                                    
@@ -482,8 +481,8 @@ while True:
    print(colored("[?] Please select a task: ", colour3), end = '')
    selection = input("")
    if selection == "89":
-      LOAD = 1
-   if selection != "86" and LOAD == 0:
+      LDF = 1
+   if selection != "86" and LDF == 0:
       print(colored("[-] You need to select a file first, before you can analyse it...", colour4))
       selection = "86"
 
@@ -514,7 +513,7 @@ while True:
       else:
          PRO = " --profile " + PRO
          PR2 = PRO.replace(" --profile ","") 
-         PR2 = spacePadding(PR2, COL1)
+         PR2 = spacePadding(PR2, SP1)
       prompt()
          
 # ------------------------------------------------------------------------------------- 
@@ -529,7 +528,7 @@ while True:
       print(colored("[?] Please enter HOST name: ", colour3), end = '')
       value = input("")
       if value != '':
-         HST = spacePadding(value, COL1)
+         HST = spacePadding(value, SP1)
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
@@ -543,7 +542,7 @@ while True:
       print(colored("[?] Please enter SERVICE PACK name: ", colour3), end = '')
       value = input("")
       if value != '':
-         SVP = spacePadding(value, COL1)
+         SVP = spacePadding(value, SP1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
@@ -557,7 +556,7 @@ while True:
       print(colored("[?] Please enter TIMESTAMP: ", colour3), end = '')
       value = input("")
       if value != '':
-         DA2 = spacePadding(value, COL1)
+         DA2 = spacePadding(value, SP1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
@@ -571,7 +570,7 @@ while True:
       print(colored("[?] Please enter IP value: ", colour3), end = '')
       value = input("")
       if value != '':
-         HIP = spacePadding(value, COL1)
+         HIP = spacePadding(value, SP1)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                           
@@ -585,7 +584,7 @@ while True:
       print(colored("[?] Please enter PORT value: ", colour3), end = '')
       value = input("")
       if value != '':
-         POR = spacePadding(value, COL1)
+         POR = spacePadding(value, SP1)
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -599,7 +598,7 @@ while True:
       print(colored("[?] Please enter PID value: ", colour3), end = '')
       value = input("")
       if value != '':
-         PI1 = spacePadding(value, COL1)
+         PI1 = spacePadding(value, SP1)
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -613,7 +612,7 @@ while True:
       print(colored("[?] Please enter OFFSET value: ", colour3), end = '')
       value = input("")
       if value != '':
-         OFF = spacePadding(value, COL1)
+         OFF = spacePadding(value, SP1)
          
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -627,7 +626,7 @@ while True:
       print(colored("[?] Please enter parameter value: ", colour3), end = '')
       value = input("")
       if value != '':
-         PRM = spacePadding(value,COL1)
+         PRM = spacePadding(value,SP1)
       
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -646,7 +645,7 @@ while True:
          if len(directory) > 0:
             os.mkdir(directory)
             DIR = directory
-            DIR = spacePadding(DIR, COL1)
+            DIR = spacePadding(DIR, SP1)
             print(colored("[+] Working directory changed...", colour3))
       prompt()
       
@@ -662,7 +661,7 @@ while True:
       print(colored("[?] Please enter SAM value: ", colour3), end = '')
       value = input("")
       if value != "":
-         SAM = spacePadding(value, COL2)
+         SAM = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -676,7 +675,7 @@ while True:
       print(colored("[?] Please enter SECURITY value: ", colour3), end = '')
       value = input("")
       if value != "":
-         SEC = spacePadding(value, COL2)
+         SEC = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -690,7 +689,7 @@ while True:
       print(colored("[?] Please enter COMPONENTS value: ", colour3), end = '')
       value = input("")
       if value != "":
-         COM = spacePadding(value, COL2)
+         COM = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -704,7 +703,7 @@ while True:
       print(colored("[?] Please enter SOFTWARE value: ", colour3), end = '')
       value = input("")
       if value != "":
-         SOF = spacePadding(value, COL2)
+         SOF = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -718,7 +717,7 @@ while True:
       print(colored("[?] Please enter SYSTEM value: ", colour3), end = '')
       value = input("")
       if value != "":
-         SYS = spacePadding(value, COL2)
+         SYS = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -732,7 +731,7 @@ while True:
       print(colored("[?] Please enter NTUSER value: ", colour3), end = '')
       value = input("")
       if value != "":
-         NTU = spacePadding(value, COL2)
+         NTU = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -746,7 +745,7 @@ while True:
       print(colored("[?] Please enter HARDWARE value: ", colour3), end = '')
       value = input("")
       if value != "":
-         HRD = spacePadding(value, COL2)
+         HRD = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -760,7 +759,7 @@ while True:
       print(colored("[?] Please enter DEFUALT value: ", colour3), end = '')
       value = input("")
       if value != "":
-         DEF = spacePadding(value, COL2)
+         DEF = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -774,7 +773,7 @@ while True:
       print(colored("[?] Please enter BOOT BCD value: ", colour3), end = '')
       value = input("")
       if value != "":
-         BCD = spacePadding(value, COL2)
+         BCD = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -792,7 +791,7 @@ while True:
       print(colored("[?] Please enter " + J.rstrip(" ") + " value: ", colour3), end = '')
       value = input("")   
       if value != "":
-         CUS = spacePadding(value, COL2)
+         CUS = spacePadding(value, SP2)
 
 # ------------------------------------------------------------------------------------- 
 # AUTHOR  : Terence Broadbent                                                    
@@ -806,7 +805,7 @@ while True:
       if (SAM == "0x0000000000000000"):
          print(colored("[-] SAM Hive missing - it is not possible to extract data...", colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + SAM + " | more")
       prompt()
 
@@ -822,7 +821,7 @@ while True:
       if (SEC == "0x0000000000000000"):
          print(colored("[-] SECURITY Hive missing - it is not possible to extract data...", colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f " + fileName.rstrip(" ") + PRO + " hivedump -o " + SEC + " | more")
       prompt()
 
@@ -838,7 +837,7 @@ while True:
       if (COM == "0x0000000000000000"):
          print(colored("[-] COMPONENTS Hive missing - it is not possible to extract data...", colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + COM + " | more")
       prompt()
 
@@ -854,7 +853,7 @@ while True:
       if (SOF == "0x0000000000000000"):
          print(colored("[-] SOFTWARE Hive missing - it is not possible to extract data...", colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + SOF + " | more")
       prompt()
 
@@ -866,11 +865,11 @@ while True:
 # Modified: N/A
 # -------------------------------------------------------------------------------------
 
-   if selection =='COL5':
+   if selection =='SP5':
       if (SYS == "0x0000000000000000"):
          print(colored("[-] SYSTEM Hive missing - it is not possible to extract data...", colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + SYS + " | more")
       prompt()    
 
@@ -886,7 +885,7 @@ while True:
       if (NTU == "0x0000000000000000"):
          print(colored("[-] NTUSER (Administrator) Hive missing - it is not possible to extract data...",colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + NTU + " | more")
       prompt() 
 
@@ -902,7 +901,7 @@ while True:
       if (HRD == "0x0000000000000000"):
          print(colored("[-] HARDWARE Hive missing - it is not possible to extract data...",colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + HRD + " | more")
       prompt()     
 
@@ -918,7 +917,7 @@ while True:
       if (DEF == "0x0000000000000000"):
          print(colored("[-] DEFUALT Hive missing - it is not possible to extract data...", colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + DEF + " | more")
       prompt()   
 
@@ -934,7 +933,7 @@ while True:
       if (BCD == "0x0000000000000000"):
          print(colored("[-] BOOT BCD Hive missing - it is not possible to extract data...",colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + BCD + " | more")
       prompt()   
 
@@ -950,7 +949,7 @@ while True:
       if (CUS == "0x0000000000000000"):
          print(colored("[-] " + J.rstrip(" ") + " Hive missing - it is not possible to extract data...",colour4))
       else:
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivedump -o " + CUS + " | more")
       prompt()  
       
@@ -963,7 +962,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '30':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivelist | more")
       prompt()
 
@@ -976,7 +975,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '31':
-      displayTask()
+      start()
       if SAM == "0x0000000000000000":
          print(colored("[-] SAM HIVE missing - its not possible to extract the hashes...",colour4))
       else:
@@ -994,43 +993,29 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '32':
-      displayTask()
-      os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " psscan | more")
-      print("")
-      os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " psscan --output greptext > F1.tmp")
-      os.system("tail -n +2 F1.tmp > F2.tmp")
-      os.system("sed -i 's/>//g' F2.tmp")
-      with open("F2.tmp") as read1:
+      start()
+      os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " psscan | more | tee -a F1.tmp")
+      os.system("sed -i '/^$/d' F1.tmp")
+      os.system("sed -i '1d' F1.tmp")
+      os.system("sed -i '1d' F1.tmp")
+      with open("F1.tmp","r") as read1, open("pid.tmp","w") as write1, open("ppid.tmp","w") as write2:
          for line in read1:
-            for word in line.split('|'):
-                output = subprocess.check_output("echo " + word + " >> F3.tmp", shell=True)
-      os.system("tail -n +2 F3.tmp > F4.tmp")
-      os.system("wc -l F2.tmp > NUM.tmp")
-      NUMLINES = open("NUM.tmp").readline().replace(' F2.tmp','') 
-      COUNT = int(NUMLINES)
-      print(colored("\n[+] There were " + str(COUNT) + " processes running at the time of the memory dump.", colour3))      
-      with open('PID.tmp','w') as read2, open('PPID.tmp','w') as read3, open('F4.tmp','r') as read4:      
-         while COUNT > 0:
-            A = read4.readline()
-            B = read4.readline() # Executable name
-            C = read4.readline().rstrip('\n') # PI1
-            print(C, file=read2)
-            D = read4.readline().rstrip('\n') # OFF             
-            print(D, file=read3)		
-            E = read4.readline()
-            G = read4.readline()
-            H = read4.readline() # blank
-            COUNT = (COUNT-1)
-      os.system("echo 'comm -13 <(sort -u PID.tmp) <(sort -u PPID.tmp) > SUSPECT.tmp' > patch.sh")
+            line = " ".join(line.split())
+            null1,null2,pid,ppid,*null3 = line.split(" ")
+            write1.write(pid+"\n")
+            write2.write(ppid+"\n")            
+      os.system("cat F1.tmp | wc -l > count.tmp")
+      count = (linecache.getline("count.tmp", 1).rstrip("\n"))     
+      print(colored("\n[+] There were " + str(count) + " processes running at the time of the memory dump.", colour3))            
+      os.system("echo 'comm -13 <(sort -u pid.tmp) <(sort -u ppid.tmp) > suspect.tmp' > patch.sh")
       os.system("bash patch.sh")
-      os.system("sort -n SUSPECT.tmp > SUSPECT2.tmp")
+      os.system("sort -n suspect.tmp > suspect2.tmp")
       print(colored("[+] Analyse of these processes reveals that:", colour3))
-      with open('SUSPECT2.tmp') as read5:
-         line = read5.readline().rstrip('\n')
-         while line != "":
-            if line != "0":
+      with open('suspect2.tmp') as read5:
+         for line in read5:
+            line  = line.rstrip('\n')
+            if (line != "") and (line != "0") and ("x" not in line):
                print(colored("\tParent process PPID " + str(line) + " does not have a process spawn! and should be investigated further...", colour3))
-            line = read5.readline().strip('\n')
       os.remove("patch.sh")
       prompt()
 
@@ -1043,7 +1028,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '33':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " psxview | more")
       prompt()
       
@@ -1056,7 +1041,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '34':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " privs | more")
       prompt()
 
@@ -1069,7 +1054,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '35':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " svcscan | more")
       prompt()
       
@@ -1082,7 +1067,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='36':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " getservicesids | more")
       prompt() 
       
@@ -1095,7 +1080,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='37':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " ldrmodules | more")
       print(" ")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " dlllist | more")
@@ -1110,7 +1095,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '38':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " cmdscan | more")
       prompt()
 
@@ -1123,7 +1108,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '39':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " consoles | more")
       prompt()
 
@@ -1139,7 +1124,7 @@ while True:
       print(colored("[?] Please enter key value in quotes: ", colour3), end = '')
       KEY = input("")
       if KEY != "":
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " printkey -K " + KEY + " | more")
          prompt()
 
@@ -1152,7 +1137,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='41':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " shellbags | more")
       prompt()
 
@@ -1165,7 +1150,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='42':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " shimcache | more")
       prompt()
 
@@ -1178,7 +1163,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='43':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " connscan | more")
       prompt() 
 
@@ -1191,7 +1176,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='44':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " netscan | more")
       prompt() 
 
@@ -1204,7 +1189,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='45':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " sockets | more")
       prompt() 
 
@@ -1217,7 +1202,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='46':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " mutantscan | more")
       prompt()
 
@@ -1230,7 +1215,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '47':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " userassist | more")
       prompt()
 
@@ -1243,7 +1228,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='48':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " sessions | more")
       prompt()     
       
@@ -1256,7 +1241,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='49':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " cachedump | more")
       prompt()    
 
@@ -1269,7 +1254,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='50':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " deskscan | more")
       prompt()
 
@@ -1282,7 +1267,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='51':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " clipboard | more")
       prompt()
 
@@ -1295,7 +1280,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='52':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " notepad | more")
       prompt()
 
@@ -1308,7 +1293,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='53':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " iehistory | more")
       prompt()
 
@@ -1321,7 +1306,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='54':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " filescan | more")
       prompt()
 
@@ -1334,7 +1319,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='55':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " symlinkscan | more")
       prompt()
 
@@ -1347,7 +1332,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='56':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " devicetree | more")
       print("")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " driverscan | more")
@@ -1362,7 +1347,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='57':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " getsids | more")
       prompt()
 
@@ -1375,7 +1360,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='58':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " envars | more")
       prompt()
 
@@ -1388,7 +1373,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='59':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " truecryptsummary | more")
       print("")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " truecryptmaster | more")
@@ -1405,7 +1390,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='60':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " wndscan | more")
       prompt()
       
@@ -1418,7 +1403,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='61':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " apihooks | more")
       print("")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " eventhooks | more")
@@ -1435,7 +1420,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='62':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " deskscan | more")
       prompt()   
       
@@ -1448,7 +1433,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='63':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " joblinks | more")
       prompt() 
       
@@ -1461,8 +1446,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='64':
-      displayTask()
-      os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " mbrparser | more")
+      start()
+      os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " mbrvirusParser | more")
       prompt() 
       
 # ------------------------------------------------------------------------------------- 
@@ -1474,7 +1459,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='65':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " objtypescan | more")
       prompt() 
       
@@ -1487,7 +1472,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='66':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " modules | more")
       print("")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " unloadedmodules | more")            
@@ -1502,7 +1487,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='67':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " bioskbd | more")
       prompt() 
       
@@ -1515,7 +1500,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '68':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " cmdline | more")
       prompt()
       
@@ -1531,7 +1516,7 @@ while True:
       print(colored("[?] Please enter yara string to scan: ", colour3), end = '')
       scanString = input("")
       if scanString != "":
-         displayTask()
+         start()
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " yarascan -Y " + scanString + " | more")
          prompt()
       
@@ -1544,7 +1529,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='70':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " dumpcerts -D " + DIR)
       prompt()
       
@@ -1557,7 +1542,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='71':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " dumpregistry -D " + DIR)
       prompt()
       
@@ -1570,7 +1555,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='72':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " moddump -D " + DIR)
       prompt()
       
@@ -1583,7 +1568,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='73':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " dlldump -p " + PI1 + " -D " + DIR)
       prompt()
 
@@ -1596,7 +1581,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='74':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " malfind -p " + PI1 + " -D " + DIR)
       prompt()
 
@@ -1609,7 +1594,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='75':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " vaddump -p " + PI1 + " --dump-dir " + DIR)
       prompt()
 
@@ -1622,7 +1607,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='76':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " procdump  -p " + PI1 + " --dump-dir " + DIR)
       prompt()
 
@@ -1635,7 +1620,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='77':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " memdump  -p " + PI1 + " --dump-dir " + DIR)
       prompt()
       
@@ -1648,7 +1633,7 @@ while True:
 # ------------------------------------------------------------------------------------- 
    
    if selection =='78':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " pslist | grep " + PRM + " | more")
       print("")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " filescan | grep " + PRM + " | more")
@@ -1663,7 +1648,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='79':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " dumpfiles -Q " + OFF + " -D " + DIR + " -u -n")
       prompt()
       
@@ -1676,7 +1661,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '80':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " evtlogs -D " + DIR)
       print("")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " --save-evt evtlogs -D " + DIR)      
@@ -1691,7 +1676,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='81':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " timeliner --output-file='" + DIR.rstrip(" ") + "/timeline.txt'")
       print("")
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " shellbags --output-file='" + DIR.rstrip(" ") + "/time.txt'")
@@ -1706,7 +1691,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='82':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " -D " + DIR + " screenshot")
       prompt()
 
@@ -1719,8 +1704,8 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='83':
-      displayTask()
-      os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " mftparser --output-file=" + DIR.rstrip(" ") + "/mfttable.txt")     
+      start()
+      os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " mftvirusParser --output-file=" + DIR.rstrip(" ") + "/mfttable.txt")     
       print("")
       os.system("strings " + DIR.rstrip(" ") + "/mfttable.txt | grep '0000000000:' > count.tmp")
       fileNum = sum(1 for line in open('count.tmp'))
@@ -1736,7 +1721,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='84':
-      displayTask()
+      start()
       os.system("bulk_extractor -x all -e net -o " + DIR + " '" + fileName.rstrip(" ") + "'")
       prompt()
 
@@ -1749,7 +1734,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection =='85':
-      displayTask()
+      start()
       os.system("bulk_extractor -o " + DIR + " '" + fileName.rstrip(" ") + "'")
       prompt()
       
@@ -1769,8 +1754,8 @@ while True:
          fileName = bak
       if os.path.exists(fileName.rstrip(" ")):
          profiles = "NOT FOUND"
-         LOAD = True
-         displayTask()
+         LDF = 1
+         start()
          os.system(volpath + " imageinfo -f '" + fileName.rstrip(" ") + "' --output-file=image.log")
          with open("image.log") as search:
             for line in search:
@@ -1796,16 +1781,16 @@ while True:
             print(colored("[#] ERROR #002 - A windows profile was not found, see 'image.log' for further information.", colour4))
             exit(True)
          else:
-            PR2 = spacePadding(PR2,COL1)
+            PR2 = spacePadding(PR2,SP1)
             os.remove("image.log")               
          PRC = PRC.replace("Number of Processors :","")
          PRC = PRC.replace(" ","")
          PRC = PRC.replace("\n","")
-         PRC = spacePadding(PRC, COL3)
+         PRC = spacePadding(PRC, SP3)
          SVP = SVP.replace("Image Type (Service Pack) :","")
          SVP = SVP.replace(" ","")
          SVP = SVP.replace("\n","")
-         SVP = spacePadding(SVP, COL1)
+         SVP = spacePadding(SVP, SP1)
          DA1 = DA1.replace("Image date and time :","")
          DA1 = DA1.lstrip() 
          DA1 = DA1.rstrip("\n")
@@ -1816,7 +1801,7 @@ while True:
          DA2 = DA2.rstrip("\n")
          a,b,c = DA2.split()
          DA2 = a + " " + b
-         DA2 = spacePadding(DA2, COL1)                  
+         DA2 = spacePadding(DA2, SP1)                  
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hivelist --output-file=hivelist.tmp")
          if os.path.exists("hivelist.tmp"):
@@ -1824,31 +1809,31 @@ while True:
                for line in search:
                  if "\sam" in line.lower():
                     SAM = line.split(None, 1)[0]
-                    SAM = spacePadding(SAM, COL2)
+                    SAM = spacePadding(SAM, SP2)
                  if "\security" in line.lower():
                     SEC = line.split(None, 1)[0]
-                    SEC = spacePadding(SEC, COL2)
+                    SEC = spacePadding(SEC, SP2)
                  if "\software" in line.lower():
                     SOF = line.split(None, 1)[0]
-                    SOF = spacePadding(SOF, COL2)
+                    SOF = spacePadding(SOF, SP2)
                  if "\system" in line.lower():
                     SYS = line.split(None, 1)[0]
-                    SYS = spacePadding(SYS, COL2)
+                    SYS = spacePadding(SYS, SP2)
                  if "\components" in line.lower():
                     COM = line.split(None, 1)[0]
-                    COM = spacePadding(SYS, COL2)
+                    COM = spacePadding(SYS, SP2)
                  if "\\administrator\\ntuser.dat" in line.lower(): # \Administrator\NTUSER.DAT as there are usually multiple NTUSERS files. 
                     NTU = line.split(None, 1)[0]
-                    NTU = spacePadding(SYS, COL2)
+                    NTU = spacePadding(SYS, SP2)
                  if "\hardware" in line.lower():
                     HRD = line.split(None,1)[0]
-                    HRD = spacePadding(HRD, COL2)
+                    HRD = spacePadding(HRD, SP2)
                  if "\default" in line.lower():
                     DEF = line.split(None,1)[0]
-                    DEF = spacePadding(DEF, COL2)
+                    DEF = spacePadding(DEF, SP2)
                  if "\\bcd" in line.lower():
                     BCD = line.split(None,1)[0]
-                    BCD = spacePadding(BCD, COL2)                                  
+                    BCD = spacePadding(BCD, SP2)                                  
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " printkey -o " + SYS + " -K 'ControlSet001\Control\ComputerName\ComputerName' --output-file=host.tmp")
          if os.path.exists("host.tmp"):
@@ -1863,7 +1848,7 @@ while True:
                HST = str(HST)
                HST = HST.replace("b'","")
                HST = HST.replace("\\x00'","")
-               HST = spacePadding(HST, COL1)         
+               HST = spacePadding(HST, SP1)         
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " hashdump -y " + SYS + " -s " + SAM + " --output-file=hash.tmp")
          if os.path.exists("hash.tmp"):
@@ -1874,11 +1859,11 @@ while True:
                      catch = line.replace(":"," ")
                      catch2 = catch.split()
                      catch3 = catch2[3]
-                     PA[count] = catch3
-                     US[count] = catch2[0][:COL3-1] + " "
-                     US[count] = spacePadding(US[count], COL3)
+                     PAS[count] = catch3
+                     USR[count] = catch2[0][:SP3-1] + " "
+                     USR[count] = spacePadding(USR[count], SP3)
                   count = count + 1
-               if count > MAXX: count = MAXX                
+               if count > MAX: count = MAX                
          print("")
          os.system(volpath + " -f '" + fileName.rstrip(" ") + "'" + PRO + " connscan --output-file=connscan.tmp")
          if os.path.exists("connscan.tmp"):
@@ -1894,12 +1879,12 @@ while True:
                getip = getip.replace(':',' ')
                HIP = getip.rsplit(' ', 1)[0]
                POR = getip.rsplit(' ', 1)[1]
-               HIP = spacePadding(HIP.rstrip("\n"), COL1)
-               POR = spacePadding(POR.rstrip("\n"), COL1)
+               HIP = spacePadding(HIP.rstrip("\n"), SP1)
+               POR = spacePadding(POR.rstrip("\n"), SP1)
       else:
-         print(colored("[-] I am Sorry, I cannot find " + fileName.rstrip(" ") + "? does it exist...", colour4))
-      if len(fileName) < COL5:
-         fileName = spacePadding(fileName, COL5)
+         print(colored("[-] I am Sorry, I cannot find " + fileName.rstrip(" ") + "- did you spell it correctly?....", colour4))
+      if len(fileName) < SP5:
+         fileName = spacePadding(fileName, SP5)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
@@ -1911,7 +1896,7 @@ while True:
 # -------------------------------------------------------------------------------------
 
    if selection == '87':
-      displayTask()
+      start()
       os.system(volpath + " -f '" + fileName.rstrip(" ") + "' " + PRO + " volshell") 
       prompt()  
       
@@ -1926,9 +1911,9 @@ while True:
    if selection == '88':
       if API_KEY != "":
          print(colored("[*] Checking status of file via virustotal.com api...\n", colour3))
-         os.chdir("OUTCOME")
+         os.chdir(DIR)
          os.system("ls -la")
-         print(colored("\n[?] Please enter filename for analyse: ", colour3), end = '')
+         print(colored("\n[?] Please enter filename to analyse: ", colour3), end = '')
          testFile = input("")
          if testFile != "":
             if os.path.exists(testFile):
@@ -1941,7 +1926,7 @@ while True:
                print(json.dumps(result, indent=5, sort_keys=True))               
                with open("analyse.tmp", "w") as parse:
                   parse.write(json.dumps(result, indent=5, sort_keys=True))               
-               parser("analyse.tmp")               
+               virusParser("analyse.tmp")               
                failure     = linecache.getline('snip1.tmp', 1)
                harmless    = linecache.getline('snip2.tmp', 1)
                malicious   = linecache.getline('snip3.tmp', 1)
@@ -1974,22 +1959,24 @@ while True:
                undetected  = str(undetected -1)
                realname    = realname.rstrip("\n")
                realname    = realname.rstrip("\n")        
-               testFile    = spacePadding(testFile, COL5)
-               failure     = spacePadding(failure, COL5)
-               harmless    = spacePadding(harmless,COL5)
-               malicious   = spacePadding(malicious,COL5)
-               suspicious  = spacePadding(suspicious,COL5)
-               unsupported = spacePadding(unsupported,COL5)
-               undetected  = spacePadding(undetected,COL5)
-               realname    = spacePadding(realname,COL5)   
+               testFile    = spacePadding(testFile, SP5)
+               failure     = spacePadding(failure, SP5)
+               harmless    = spacePadding(harmless,SP5)
+               malicious   = spacePadding(malicious,SP5)
+               suspicious  = spacePadding(suspicious,SP5)
+               unsupported = spacePadding(unsupported,SP5)
+               undetected  = spacePadding(undetected,SP5)
+               realname    = spacePadding(realname,SP5)   
                if malicious[:1] == "0":
-                  status = spacePadding("HARMLESS",COL5)
+                  status = spacePadding("HARMLESS",SP5)
                else:
-                  status = spacePadding("MALICIOUS", COL5)                
+                  status = spacePadding("MALICIOUS", SP5)                
                os.system("rm *.tmp")
+            else:
+               print(colored("[-] I am sorry, I could not find " + testFile.rstrip(" ") + " - did you spell it correctly?...", colour4))
          os.chdir("..")
       else:
-         print(colored("[-] I am Sorry, you need to enter your personal api key on line 48 in this script...", colour4))
+         print(colored("[-] I am Sorry, you need to enter your personal api key on line 46 of this script...", colour4))
       prompt()
       
 # ------------------------------------------------------------------------------------- 
