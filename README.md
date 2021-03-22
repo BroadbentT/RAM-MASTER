@@ -26,7 +26,7 @@ Usage: python3 RamMaster.py
 
 | LANGUAGE  | FILENAME     | MD5 Hash                         | DESCRIPTION      | VERSION  |
 |------     |------        | -------                          | ------           | ----     |
-| python3   | RamMaster.py | 2bccfcf45cc9d59e548958f8631159b4 | Command Centre   | Forensic |
+| python3   | RamMaster.py | e2afa7abea10422275349e2d7bdf108f | Command Centre   | Forensic |
 | text file | profiles.txt | 380d793d31c90a09aae417b16cbaff22 | Windows Profiles | Forensic |
 
 - [x] Uses and self-installs linux volatility 2.6 - https://www.volatilityfoundation.org/26

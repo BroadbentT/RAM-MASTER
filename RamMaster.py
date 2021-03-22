@@ -99,7 +99,7 @@ def displayMenu():
       print(colored(fileName[:SP0], colour2), end=' ')
    else:
       print(colored(fileName[:SP0], colour1), end=' ')
-   print('\u2551' + " HIVE         OFFSET LOCATION    "  + '\u2551' + " USERNAME " + " "*11 + " NTFS PASSWORD HASH " + " "*14 + '\u2551' + "     VIRUSRTOTAL API INFORMATION     " + '\u2551') 
+   print('\u2551' + " HIVE         OFFSET LOCATION    "  + '\u2551' + " USERNAME " + " "*11 + " NTFS PASSWORD HASH " + " "*14 + '\u2551' + "     VIRUS TOTAL API INFORMATION     " + '\u2551') 
    print('\u2560' + '\u2550'*14 + '\u256C' + '\u2550'*21 + '\u256C' + '\u2550'*12 + '\u2566' + '\u2550'*20 + '\u256C' + '\u2550'*55 + '\u256C' + '\u2550'*(11) + '\u2566' + '\u2550'*(25) + '\u2563')
    
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1752,6 +1752,9 @@ while True:
       fileName = input("")
       if fileName == "":
          fileName = bak
+      else:
+         if len(fileName) < SP5:
+            fileName = spacePadding(fileName, SP5)
       if os.path.exists(fileName.rstrip(" ")):
          profiles = "NOT FOUND"
          LDF = 1
@@ -1883,8 +1886,6 @@ while True:
                POR = spacePadding(POR.rstrip("\n"), SP1)
       else:
          print(colored("[-] I am Sorry, I cannot find " + fileName.rstrip(" ") + "- did you spell it correctly?....", colour4))
-      if len(fileName) < SP5:
-         fileName = spacePadding(fileName, SP5)
       prompt()
       
 # ------------------------------------------------------------------------------------- 
